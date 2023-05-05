@@ -7,6 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
+import { CircularProgress } from '@mui/material';
 import { withStyles } from '@mui/styles';
 
 const styles = theme => ({
@@ -17,17 +18,35 @@ const styles = theme => ({
   },
   table: {
     minWidth: 1080
-  }
+  },
+  progress: {}
 })
+
+
+/*
+1) constructor()
+
+2) componentWillMount()
+
+3) render()
+
+4) componentDidMount()
+
+컴포넌트의 props 또는 state가 변경되는 경우 -> shouldComponentUpdate()
+- React의 경우 알아서 상태변화를 감지하여 View를 재구성함
+*/
+
 
 class App extends Component {
 
   // state : 컴포넌트 내부에서 변경될 수 있는 데이터를 처리하고자 할 때 사용, props는 고정값.
   state = {
-    customers: ""
+    customers: "",
+    completed: 0
   }
 
   componentDidMount() {
+    this.timer = setInterval(this.progress, 20);
     this.callApi()
       .then(res => this.setState({customers: res}))
       .catch(err => console.log(err));
@@ -37,6 +56,11 @@ class App extends Component {
     const response = await fetch('/api/customers');
     const body = await response.json();
     return body;
+  }
+
+  progress = () => {
+    const { completed } = this.state;
+    this.setState({ completed: completed >= 100 ? 0: completed + 1 });
   }
 
   render() {
@@ -57,7 +81,13 @@ class App extends Component {
           <TableBody>
             {this.state.customers ? this.state.customers.map(c => { 
               return ( <Customer key={c.id} id={c.id} image={c.image} birthday={c.birthday} name={c.name} gender={c.gender} job={c.job} /> );
-             }) : ""}
+             }) : 
+             <TableRow>
+              <TableCell colSpan="6" align="center">
+                <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed} />
+              </TableCell>
+             </TableRow>
+             }
           </TableBody>
         </Table>
       </Paper>
