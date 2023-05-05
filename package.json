@@ -1,5 +1,5 @@
 {
-  "name" : "management",
+  "name": "management",
   "version": "^1.0.0",
   "scripts": {
     "client": "cd client && yarn start",
@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "body-parser": "^1.20.2",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6"
   },
   "devDependencies": {
     "concurrently": "^8.0.1"
