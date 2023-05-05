@@ -1,3 +1,6 @@
+## Management System
+본 프로젝트는 Express.js, React.js를 활용한 고객 관리 시스템 프로젝트입니다.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
